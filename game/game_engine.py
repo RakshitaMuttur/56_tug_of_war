@@ -3,8 +3,8 @@ import pygame
 from game.rope import Rope
 from game.player import Puller
 
-SUDDEN_DEATH_MS = 45_000      # Task 4
-SURGE_THRESHOLD = 0.35        # Task 2: fraction of the way to the player's goal
+SUDDEN_DEATH_MS = 45_000     
+SURGE_THRESHOLD = 0.35        
 
 
 class GameEngine:
@@ -39,9 +39,7 @@ class GameEngine:
                 self.reset()
             return
 
-        # Task 1 FIX: the old is_pull_locked flag was only cleared on KEYUP of
-        # last_key, so overlapping key presses froze input forever. Alternation
-        # (event.key != last_key) alone is the debounce now - no lock needed.
+        
         if event.type == pygame.KEYDOWN and event.key in (pygame.K_a, pygame.K_d):
             if event.key != self.last_key:
                 self.rope.pull_left(1.0 * self._pull_multiplier())
@@ -61,7 +59,7 @@ class GameEngine:
         if not self.sudden_death and self.elapsed_ms >= SUDDEN_DEATH_MS:
             self.sudden_death = True
 
-        # Task 2: panic surge when the flag is dragged toward the player's goal
+      
         self.panic = self.rope.progress() >= SURGE_THRESHOLD
         if self.panic:
             severity = (self.rope.progress() - SURGE_THRESHOLD) / (1 - SURGE_THRESHOLD)
